@@ -13,29 +13,39 @@ const mutation = graphql`
         id
         link {
           id
+          votes {
+            count
+          }
         }
         user {
           id
         }
-# adding this payload to the query makes the cache update correctly
-#        link {
-#          votes {
-#            edges {
-#              node {
-#                id
-#                user {
-#                  id
-#                }
-#              }
-#            }
-#          }
-#        }
       }
     }
   }
 `
 
 let tempID = 0
+
+function getOptimisticResponse(userId, linkId, ) {
+  return {
+    createVote: {
+      vote: {
+        id: 'vote-' + tempID++,
+        user: {
+          id: userId
+        },
+        link: {
+          id: linkId,
+          votes: {
+            count: -1
+          }
+        }
+
+      }
+    }
+  }
+}
 
 export default (userId, linkId, viewerId) => {
   const variables = {
@@ -51,42 +61,28 @@ export default (userId, linkId, viewerId) => {
     {
       mutation,
       variables,
+      // optimisticResponse: () => getOptimisticResponse(userId, linkId),
       optimisticUpdater: proxyStore => {
 
-        // const user = proxyStore.get(userId)
-        // const link = proxyStore.get(linkId)
-        //
-        // const id = 'client:newVote:' + tempID++
-        // const newVote = proxyStore.create(id, 'Vote')
-        // newVote.setValue(id, 'id')
-        // newVote.setLinkedRecord(user, 'user')
-        // newVote.setLinkedRecord(link, 'link')
-        //
-        // const viewerProxy = proxyStore.get(viewerId)
-        // const connection = ConnectionHandler.getConnection(viewerProxy, 'Link_votes')
-        // if (connection) {
-        //   ConnectionHandler.insertEdgeAfter(connection, newVote)
-        // }
+        // actual optimisticUpdater function
+        const link = proxyStore.get(linkId)
+        const currentVotes = link.getLinkedRecord('votes').getValue('count')
+        const newVotes = currentVotes + 1
+        link.getLinkedRecord('votes').setValue(newVotes, 'count')
+        console.log( `updater, vote count: `, link.getLinkedRecord('votes').getValue('count'))
 
       },
       updater: proxyStore => {
-        console.log(`CreateVoteMutation - updater`)
-        storeDebugger.dump(proxyStore)
 
-        const createVoteField = proxyStore.getRootField('createVote')
-        const newVote = createVoteField.getLinkedRecord('vote')
+        // const createVoteField = proxyStore.getRootField('createVote')
+        // const newVote = createVoteField.getLinkedRecord('vote')
+        // const updatedLink = newVote.getLinkedRecord('link')
+        // const newVotes = updatedLink.getLinkedRecord('votes')
+        // const newVoteCount = newVotes.getValue('count')
+        //
+        // const link = proxyStore.get(linkId)
+        // link.getLinkedRecord('votes').setValue(newVoteCount, 'count')
 
-        const viewerProxy = proxyStore.get(viewerId)
-        const connection = ConnectionHandler.getConnection(viewerProxy, 'Link_votes')
-
-        console.log(`updater: `, viewerId, viewerProxy, connection)
-
-        if (connection) {
-          console.log(`insert new vote into connection: `, newVote)
-          ConnectionHandler.insertEdgeAfter(connection, newVote)
-        } else {
-          console.log(`could not retrieve connection from ConnectionHandler`)
-        }
       },
       onCompleted: () => {
 

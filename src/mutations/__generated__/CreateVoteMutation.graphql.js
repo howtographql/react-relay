@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule CreateVoteMutation.graphql
- * @generated SignedSource<<745c6654b7bf74bf44ef3faea45f0307>>
- * @relayHash 2144fca8379a263207976f72ce5b81d1
+ * @generated SignedSource<<06ec6762213406fbaade261eadf31ea9>>
+ * @relayHash 78f8017c325fd5662e651cebe86f4020
  * @flow
  * @nogrep
  */
@@ -35,12 +35,13 @@ export type CreateVoteMutationResponse = {
   vote?: ?CreateVoteMutationResponse_vote;
 };
 
-export type CreateVoteMutationResponse_vote_link = {
-  id: string;
+export type CreateVoteMutationResponse_vote_link_votes = {
+  count: number;
 };
 
-export type CreateVoteMutationResponse_vote_user = {
+export type CreateVoteMutationResponse_vote_link = {
   id: string;
+  votes?: ?CreateVoteMutationResponse_vote_link_votes;
 };
 
 export type CreateVoteMutationResponse_vote_user = {
@@ -50,7 +51,6 @@ export type CreateVoteMutationResponse_vote_user = {
 export type CreateVoteMutationResponse_vote = {
   id: string;
   link: CreateVoteMutationResponse_vote_link;
-  user: CreateVoteMutationResponse_vote_user;
   user: CreateVoteMutationResponse_vote_user;
 };
 */
@@ -66,6 +66,9 @@ mutation CreateVoteMutation(
       id
       link {
         id
+        votes {
+          count
+        }
       }
       user {
         id
@@ -132,6 +135,24 @@ const batch /*: ConcreteBatch*/ = {
                     "alias": null,
                     "args": null,
                     "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "VoteConnection",
+                    "name": "votes",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "count",
+                        "storageKey": null
+                      }
+                    ],
                     "storageKey": null
                   }
                 ],
@@ -225,6 +246,24 @@ const batch /*: ConcreteBatch*/ = {
                     "args": null,
                     "name": "id",
                     "storageKey": null
+                  },
+                  {
+                    "kind": "LinkedField",
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "VoteConnection",
+                    "name": "votes",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "kind": "ScalarField",
+                        "alias": null,
+                        "args": null,
+                        "name": "count",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -255,7 +294,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "mutation CreateVoteMutation(\n  $input: CreateVoteInput!\n) {\n  createVote(input: $input) {\n    vote {\n      id\n      link {\n        id\n      }\n      user {\n        id\n      }\n    }\n  }\n}\n"
+  "text": "mutation CreateVoteMutation(\n  $input: CreateVoteInput!\n) {\n  createVote(input: $input) {\n    vote {\n      id\n      link {\n        id\n        votes {\n          count\n        }\n      }\n      user {\n        id\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

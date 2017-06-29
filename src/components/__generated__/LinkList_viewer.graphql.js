@@ -3,7 +3,7 @@
  *   relay-compiler
  *
  * @providesModule LinkList_viewer.graphql
- * @generated SignedSource<<14fe1b228030f9d8a5fb4dccfc689e39>>
+ * @generated SignedSource<<3fd3f5c2e499dfff0fb0aac3c4012d84>>
  * @flow
  * @nogrep
  */
@@ -21,8 +21,13 @@ export type LinkList_viewer_allLinks_edges = {
   node?: ?any;
 };
 
+export type LinkList_viewer_allLinks_pageInfo = {
+  hasNextPage?: ?boolean;
+};
+
 export type LinkList_viewer_allLinks = {
   edges?: ?Array<?LinkList_viewer_allLinks_edges>;
+  pageInfo?: ?LinkList_viewer_allLinks_pageInfo;
 };
 */
 
@@ -60,7 +65,20 @@ const fragment /*: ConcreteFragment*/ = {
     {
       "kind": "LinkedField",
       "alias": "allLinks",
-      "args": null,
+      "args": [
+        {
+          "kind": "Literal",
+          "name": "last",
+          "value": 100,
+          "type": "Int"
+        },
+        {
+          "kind": "Literal",
+          "name": "orderBy",
+          "value": "createdAt_DESC",
+          "type": "LinkOrderBy"
+        }
+      ],
       "concreteType": "LinkConnection",
       "name": "__LinkList_allLinks_connection",
       "plural": false,
@@ -91,9 +109,27 @@ const fragment /*: ConcreteFragment*/ = {
             }
           ],
           "storageKey": null
+        },
+        {
+          "kind": "LinkedField",
+          "alias": null,
+          "args": null,
+          "concreteType": "PageInfo",
+          "name": "pageInfo",
+          "plural": false,
+          "selections": [
+            {
+              "kind": "ScalarField",
+              "alias": null,
+              "args": null,
+              "name": "hasNextPage",
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
         }
       ],
-      "storageKey": null
+      "storageKey": "__LinkList_allLinks_connection{\"last\":100,\"orderBy\":\"createdAt_DESC\"}"
     }
   ],
   "type": "Viewer"

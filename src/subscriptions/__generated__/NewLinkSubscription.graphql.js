@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule NewLinkSubscription.graphql
- * @generated SignedSource<<d18310054dd9b023888df9ec087eed16>>
- * @relayHash b0b1c2da439b004fe3f80d7c08f03f93
+ * @generated SignedSource<<e0b67d07ef86376b10aa5dcc48be461f>>
+ * @relayHash e69e9bd91034c128448ea872f024f8e4
  * @flow
  * @nogrep
  */
@@ -30,6 +30,9 @@ subscription NewLinkSubscription {
       postedBy {
         id
         name
+      }
+      _votesMeta {
+        count
       }
     }
   }
@@ -114,6 +117,24 @@ const batch /*: ConcreteBatch*/ = {
                     "alias": null,
                     "args": null,
                     "name": "name",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              },
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "_QueryMeta",
+                "name": "_votesMeta",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "count",
                     "storageKey": null
                   }
                 ],
@@ -213,6 +234,24 @@ const batch /*: ConcreteBatch*/ = {
                   }
                 ],
                 "storageKey": null
+              },
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "_QueryMeta",
+                "name": "_votesMeta",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "count",
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -222,7 +261,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "subscription NewLinkSubscription {\n  Link {\n    mutation\n    node {\n      id\n      description\n      url\n      createdAt\n      postedBy {\n        id\n        name\n      }\n    }\n  }\n}\n"
+  "text": "subscription NewLinkSubscription {\n  Link {\n    mutation\n    node {\n      id\n      description\n      url\n      createdAt\n      postedBy {\n        id\n        name\n      }\n      _votesMeta {\n        count\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

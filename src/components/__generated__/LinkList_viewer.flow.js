@@ -5,7 +5,7 @@
  *   relay-compiler
  *
  * @providesModule LinkList_viewer.flow
- * @generated SignedSource<<bfe3b6ac3a6a1e46f2c53262fe0b9a41>>
+ * @generated SignedSource<<a264f7eb4e658f099e4866ed1225a03c>>
  * @flow
  */
 
@@ -20,6 +20,11 @@ export type LinkList_viewer_allLinks_edges = {
   node?: ?any;
 };
 
+export type LinkList_viewer_allLinks_pageInfo = {
+  hasNextPage?: ?boolean;
+};
+
 export type LinkList_viewer_allLinks = {
   edges?: ?Array<?LinkList_viewer_allLinks_edges>;
+  pageInfo?: ?LinkList_viewer_allLinks_pageInfo;
 };

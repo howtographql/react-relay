@@ -12,6 +12,9 @@ const newVoteSubscription = graphql`
         id
         link {
           id
+          _votesMeta {
+            count
+          }
         }
         user {
           id

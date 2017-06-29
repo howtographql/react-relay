@@ -3,7 +3,7 @@
  *   relay-compiler
  *
  * @providesModule Link_link.graphql
- * @generated SignedSource<<fe151903008b3c8fa295c262ecf81f6c>>
+ * @generated SignedSource<<315e62eb9bf0303e15062c2d5a1a663d>>
  * @flow
  * @nogrep
  */
@@ -26,21 +26,8 @@ export type Link_link_postedBy = {
   name: string;
 };
 
-export type Link_link_votes_edges_node_user = {
-  id: string;
-};
-
-export type Link_link_votes_edges_node = {
-  id: string;
-  user: Link_link_votes_edges_node_user;
-};
-
-export type Link_link_votes_edges = {
-  node?: ?Link_link_votes_edges_node;
-};
-
 export type Link_link_votes = {
-  edges?: ?Array<?Link_link_votes_edges>;
+  count: number;
 };
 */
 
@@ -49,18 +36,7 @@ export type Link_link_votes = {
 const fragment /*: ConcreteFragment*/ = {
   "argumentDefinitions": [],
   "kind": "Fragment",
-  "metadata": {
-    "connection": [
-      {
-        "count": null,
-        "cursor": null,
-        "direction": "backward",
-        "path": [
-          "votes"
-        ]
-      }
-    ]
-  },
+  "metadata": null,
   "name": "Link_link",
   "selections": [
     {
@@ -118,57 +94,17 @@ const fragment /*: ConcreteFragment*/ = {
     },
     {
       "kind": "LinkedField",
-      "alias": "votes",
+      "alias": null,
       "args": null,
       "concreteType": "VoteConnection",
-      "name": "__Link_votes_connection",
+      "name": "votes",
       "plural": false,
       "selections": [
         {
-          "kind": "LinkedField",
+          "kind": "ScalarField",
           "alias": null,
           "args": null,
-          "concreteType": "VoteEdge",
-          "name": "edges",
-          "plural": true,
-          "selections": [
-            {
-              "kind": "LinkedField",
-              "alias": null,
-              "args": null,
-              "concreteType": "Vote",
-              "name": "node",
-              "plural": false,
-              "selections": [
-                {
-                  "kind": "ScalarField",
-                  "alias": null,
-                  "args": null,
-                  "name": "id",
-                  "storageKey": null
-                },
-                {
-                  "kind": "LinkedField",
-                  "alias": null,
-                  "args": null,
-                  "concreteType": "User",
-                  "name": "user",
-                  "plural": false,
-                  "selections": [
-                    {
-                      "kind": "ScalarField",
-                      "alias": null,
-                      "args": null,
-                      "name": "id",
-                      "storageKey": null
-                    }
-                  ],
-                  "storageKey": null
-                }
-              ],
-              "storageKey": null
-            }
-          ],
+          "name": "count",
           "storageKey": null
         }
       ],

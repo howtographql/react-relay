@@ -17,6 +17,9 @@ const newLinkSubscription = graphql`
           id
           name
         }
+        _votesMeta {
+          count
+        }
       }
     }
   }

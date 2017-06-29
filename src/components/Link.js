@@ -11,7 +11,7 @@ import { timeDifferenceForDate } from '../utils'
 class Link extends Component {
 
   render() {
-    // console.log(`Link - render - viewer`, this.props.viewer)
+    console.log(`Link - render - viewer`, this.props.link)
     const userId = localStorage.getItem(GC_USER_ID)
     return (
       <div className='flex mt2 items-start'>
@@ -21,22 +21,50 @@ class Link extends Component {
         </div>
         <div className='ml1'>
         <div>{this.props.link.description} ({this.props.link.url})</div>
-        <div className='f6 lh-copy gray'>{this.props.link.votes.edges.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
+        <div className='f6 lh-copy gray'>{this.props.link.votes.count} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}</div>
       </div>
     </div>
     )
   }
 
-  _voteForLink = () => {
+  _voteForLink = async () => {
     const userId = localStorage.getItem(GC_USER_ID)
-    // const voterIds = this.props.link.votes.edges.map(node => node.user.id)
-    // if (voterIds.includes(userId)) {
-    //   console.log(`User (${userId}) already voted for this link.`)
-    //   return
-    // }
+    if (!userId) {
+      console.log(`Can't vote without user ID`)
+      return
+    }
 
     const linkId = this.props.link.id
-    CreateVoteMutation(userId, linkId, this.props.viewer.id)
+
+    const canUserVoteOnLink = await this._userCanVoteOnLink(userId, linkId)
+    if (canUserVoteOnLink) {
+      console.log(`Vote for link`)
+      CreateVoteMutation(userId, linkId, this.props.viewer.id)
+    } else {
+      console.log(`Current user can't vote for that link`)
+    }
+  }
+
+  _userCanVoteOnLink = async (userId, linkId) => {
+    const checkVoteQueryText = `
+    query CheckVoteQuery($userId: ID!, $linkId: ID!) {
+      viewer {
+        allVotes(filter: {
+          user: { id: $userId },
+          link: { id: $linkId }
+        }) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+    }`
+    const checkVoteQuery = { text: checkVoteQueryText }
+
+    const result = await this.props.relay.environment._network.fetch(checkVoteQuery, {userId, linkId})
+    return result.data.viewer.allVotes.edges.length === 0
   }
 
 }
@@ -54,15 +82,8 @@ export default createFragmentContainer(Link, graphql`
       id
       name
     }
-    votes @connection(key: "Link_votes", filters: []) {
-      edges {
-        node {
-          id
-          user {
-            id
-          }
-        }
-      }
+    votes {
+      count
     }
   }
 `)

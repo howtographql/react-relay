@@ -5,7 +5,7 @@
  *   relay-compiler
  *
  * @providesModule CreateVoteMutation.flow
- * @generated SignedSource<<f85db592e23dd3a77862ccdcb3fdec6e>>
+ * @generated SignedSource<<0c5b9e0dbb732b45b065470d5147c7b9>>
  * @flow
  */
 
@@ -33,8 +33,13 @@ export type CreateVoteMutationResponse = {
   vote?: ?CreateVoteMutationResponse_vote;
 };
 
+export type CreateVoteMutationResponse_vote_link_votes = {
+  count: number;
+};
+
 export type CreateVoteMutationResponse_vote_link = {
   id: string;
+  votes?: ?CreateVoteMutationResponse_vote_link_votes;
 };
 
 export type CreateVoteMutationResponse_vote_user = {

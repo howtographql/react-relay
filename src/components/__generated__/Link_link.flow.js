@@ -5,7 +5,7 @@
  *   relay-compiler
  *
  * @providesModule Link_link.flow
- * @generated SignedSource<<12fbec7259c4ee1ac980b2420b9b18ea>>
+ * @generated SignedSource<<c25f271a1539d07776690e6b3ec88e8b>>
  * @flow
  */
 
@@ -25,19 +25,6 @@ export type Link_link_postedBy = {
   name: string;
 };
 
-export type Link_link_votes_edges_node_user = {
-  id: string;
-};
-
-export type Link_link_votes_edges_node = {
-  id: string;
-  user: Link_link_votes_edges_node_user;
-};
-
-export type Link_link_votes_edges = {
-  node?: ?Link_link_votes_edges_node;
-};
-
 export type Link_link_votes = {
-  edges?: ?Array<?Link_link_votes_edges>;
+  count: number;
 };
