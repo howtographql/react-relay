@@ -3,7 +3,6 @@ import {
   graphql
 } from 'react-relay'
 import environment from '../Environment'
-import { ConnectionHandler } from 'relay-runtime'
 
 const mutation = graphql`
   mutation CreateUserMutation($createUserInput: SignupUserInput!, $signinUserInput: SigninUserInput!) {
@@ -21,7 +20,6 @@ const mutation = graphql`
     }
   }
 `
-
 
 export default (name, email, password, callback) => {
   const variables = {
@@ -49,12 +47,6 @@ export default (name, email, password, callback) => {
     {
       mutation,
       variables,
-      optimisticUpdater: (proxyStore) => {
-
-      },
-      updater: (proxyStore) => {
-
-      },
       onCompleted: (response) => {
         const id = response.createUser.user.id
         const token = response.signinUser.token

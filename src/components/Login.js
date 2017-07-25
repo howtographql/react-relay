@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { GC_USER_ID, GC_AUTH_TOKEN } from '../constants'
 import SigninMutation from '../mutations/SigninMutation'
 import CreateUserMutation from '../mutations/CreateUserMutation'
-import '../styles/index.css'
 
 class Login extends Component {
 
@@ -57,8 +56,7 @@ class Login extends Component {
     )
   }
 
-
-  _confirm = async () => {
+  _confirm = () => {
     const { name, email, password } = this.state
     if (this.state.login) {
       SigninMutation(email, password, (id, token) => {

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
-import CreateLinkPage from './CreateLinkPage'
-import LinkListPage from './LinkListPage'
+import CreateLink from './CreateLink'
 import Header from './Header'
 import Login from './Login'
-import Search from './Search'
+import LinkListPage from './LinkListPage'
+import { Switch, Route } from 'react-router-dom'
 
 class App extends Component {
+
   render() {
     return (
       <div className='center w85'>
@@ -14,14 +14,14 @@ class App extends Component {
         <div className='ph3 pv1 background-gray'>
           <Switch>
             <Route exact path='/' component={LinkListPage}/>
-            <Route exact path='/create' component={CreateLinkPage}/>
             <Route exact path='/login' component={Login}/>
-            <Route exact path='/search' component={Search}/>
+            <Route exact path='/create' component={CreateLink}/>
           </Switch>
         </div>
       </div>
     )
   }
+
 }
 
 export default App

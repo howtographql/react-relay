@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule NewVoteSubscription.graphql
- * @generated SignedSource<<668cae26dc3a9b2bf917b25e9683b8b6>>
- * @relayHash 313a263d10a56d590390f762ae59ac5d
+ * @generated SignedSource<<8c8006885e39c516b237f134ea2f429f>>
+ * @relayHash bc6aa1f934b6458e46993223384b0386
  * @flow
  * @nogrep
  */
@@ -20,18 +20,17 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 /*
 subscription NewVoteSubscription {
-  Vote {
-    mutation
+  Vote(filter: {mutation_in: [CREATED]}) {
     node {
       id
+      user {
+        id
+      }
       link {
         id
         _votesMeta {
           count
         }
-      }
-      user {
-        id
       }
     }
   }
@@ -48,18 +47,22 @@ const batch /*: ConcreteBatch*/ = {
       {
         "kind": "LinkedField",
         "alias": null,
-        "args": null,
+        "args": [
+          {
+            "kind": "Literal",
+            "name": "filter",
+            "value": {
+              "mutation_in": [
+                "CREATED"
+              ]
+            },
+            "type": "VoteSubscriptionFilter"
+          }
+        ],
         "concreteType": "VoteSubscriptionPayload",
         "name": "Vote",
         "plural": false,
         "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "mutation",
-            "storageKey": null
-          },
           {
             "kind": "LinkedField",
             "alias": null,
@@ -73,6 +76,24 @@ const batch /*: ConcreteBatch*/ = {
                 "alias": null,
                 "args": null,
                 "name": "id",
+                "storageKey": null
+              },
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "User",
+                "name": "user",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "id",
+                    "storageKey": null
+                  }
+                ],
                 "storageKey": null
               },
               {
@@ -110,30 +131,12 @@ const batch /*: ConcreteBatch*/ = {
                   }
                 ],
                 "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "User",
-                "name": "user",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
               }
             ],
             "storageKey": null
           }
         ],
-        "storageKey": null
+        "storageKey": "Vote{\"filter\":{\"mutation_in\":[\"CREATED\"]}}"
       }
     ],
     "type": "Subscription"
@@ -151,18 +154,22 @@ const batch /*: ConcreteBatch*/ = {
       {
         "kind": "LinkedField",
         "alias": null,
-        "args": null,
+        "args": [
+          {
+            "kind": "Literal",
+            "name": "filter",
+            "value": {
+              "mutation_in": [
+                "CREATED"
+              ]
+            },
+            "type": "VoteSubscriptionFilter"
+          }
+        ],
         "concreteType": "VoteSubscriptionPayload",
         "name": "Vote",
         "plural": false,
         "selections": [
-          {
-            "kind": "ScalarField",
-            "alias": null,
-            "args": null,
-            "name": "mutation",
-            "storageKey": null
-          },
           {
             "kind": "LinkedField",
             "alias": null,
@@ -176,6 +183,24 @@ const batch /*: ConcreteBatch*/ = {
                 "alias": null,
                 "args": null,
                 "name": "id",
+                "storageKey": null
+              },
+              {
+                "kind": "LinkedField",
+                "alias": null,
+                "args": null,
+                "concreteType": "User",
+                "name": "user",
+                "plural": false,
+                "selections": [
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "id",
+                    "storageKey": null
+                  }
+                ],
                 "storageKey": null
               },
               {
@@ -213,34 +238,16 @@ const batch /*: ConcreteBatch*/ = {
                   }
                 ],
                 "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "User",
-                "name": "user",
-                "plural": false,
-                "selections": [
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "id",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
               }
             ],
             "storageKey": null
           }
         ],
-        "storageKey": null
+        "storageKey": "Vote{\"filter\":{\"mutation_in\":[\"CREATED\"]}}"
       }
     ]
   },
-  "text": "subscription NewVoteSubscription {\n  Vote {\n    mutation\n    node {\n      id\n      link {\n        id\n        _votesMeta {\n          count\n        }\n      }\n      user {\n        id\n      }\n    }\n  }\n}\n"
+  "text": "subscription NewVoteSubscription {\n  Vote(filter: {mutation_in: [CREATED]}) {\n    node {\n      id\n      user {\n        id\n      }\n      link {\n        id\n        _votesMeta {\n          count\n        }\n      }\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

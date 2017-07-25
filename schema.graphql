@@ -950,29 +950,11 @@ input VotelinkLinkvotesVote {
 }
 
 type Subscription {
-  Link: LinkSubscriptionPayload
-  Vote: VoteSubscriptionPayload
+  Vote(filter: VoteSubscriptionFilter): VoteSubscriptionPayload
 }
 
-type LinkSubscriptionPayload {
-  mutation: _ModelMutationType!
-  node: Link
-  updatedFields: [String!]
-  previousValues: LinkPreviousValues
-}
-
-enum _ModelMutationType {
-  CREATED
-  UPDATED
-  DELETED
-}
-
-type LinkPreviousValues {
-  createdAt: DateTime!
-  description: String!
-  id: ID!
-  updatedAt: DateTime!
-  url: String!
+input VoteSubscriptionFilter {
+  mutation_in: [_ModelMutationType!]
 }
 
 type VoteSubscriptionPayload {
@@ -982,9 +964,14 @@ type VoteSubscriptionPayload {
   previousValues: VotePreviousValues
 }
 
+enum _ModelMutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
 type VotePreviousValues {
   createdAt: DateTime!
   id: ID!
   updatedAt: DateTime!
 }
-

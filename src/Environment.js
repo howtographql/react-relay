@@ -1,3 +1,4 @@
+import {GC_AUTH_TOKEN} from './constants'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 const {
@@ -6,15 +7,16 @@ const {
   RecordSource,
   Store,
 } = require('relay-runtime')
+
 const store = new Store(new RecordSource())
 
-
 const fetchQuery = (operation, variables) => {
-  return fetch('https://api.graph.cool/relay/v1/cj43uccaa2u5r0185uqqv6lm1', {
+  return fetch('https://api.graph.cool/relay/v1/__PROJECT_ID__', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem(GC_AUTH_TOKEN)}`
     },
     body: JSON.stringify({
       query: operation.text,
@@ -25,22 +27,14 @@ const fetchQuery = (operation, variables) => {
   })
 }
 
-const websocketURL = 'wss://subscriptions.graph.cool/v1/cj43uccaa2u5r0185uqqv6lm1'
-
-function setupSubscription(
-  config,
-  variables,
-  cacheConfig,
-  observer,
-) {
+const setupSubscription = (config, variables, cacheConfig, observer) => {
   const query = config.text
 
-  const subscriptionClient = new SubscriptionClient(websocketURL, {reconnect: true})
+  const subscriptionClient = new SubscriptionClient('wss://subscriptions.graph.cool/v1/__PROJECT_ID__', {reconnect: true})
   subscriptionClient.subscribe({query, variables}, (error, result) => {
     observer.onNext({data: result})
   })
 }
-
 
 const network = Network.create(fetchQuery, setupSubscription)
 
@@ -50,4 +44,3 @@ const environment = new Environment({
 })
 
 export default environment
-

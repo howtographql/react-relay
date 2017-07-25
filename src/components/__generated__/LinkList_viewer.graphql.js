@@ -3,7 +3,7 @@
  *   relay-compiler
  *
  * @providesModule LinkList_viewer.graphql
- * @generated SignedSource<<3fd3f5c2e499dfff0fb0aac3c4012d84>>
+ * @generated SignedSource<<52c74daea123bd0d11ca374cc03ac88b>>
  * @flow
  * @nogrep
  */
@@ -13,7 +13,6 @@
 /*::
 import type {ConcreteFragment} from 'relay-runtime';
 export type LinkList_viewer = {
-  id: string;
   allLinks?: ?LinkList_viewer_allLinks;
 };
 
@@ -23,6 +22,7 @@ export type LinkList_viewer_allLinks_edges = {
 
 export type LinkList_viewer_allLinks_pageInfo = {
   hasNextPage?: ?boolean;
+  endCursor?: ?string;
 };
 
 export type LinkList_viewer_allLinks = {
@@ -34,14 +34,25 @@ export type LinkList_viewer_allLinks = {
 /* eslint-disable comma-dangle, quotes */
 
 const fragment /*: ConcreteFragment*/ = {
-  "argumentDefinitions": [],
+  "argumentDefinitions": [
+    {
+      "kind": "RootArgument",
+      "name": "count",
+      "type": "Int"
+    },
+    {
+      "kind": "RootArgument",
+      "name": "after",
+      "type": "String"
+    }
+  ],
   "kind": "Fragment",
   "metadata": {
     "connection": [
       {
-        "count": null,
-        "cursor": null,
-        "direction": "backward",
+        "count": "count",
+        "cursor": "after",
+        "direction": "forward",
         "path": [
           "allLinks"
         ]
@@ -51,27 +62,9 @@ const fragment /*: ConcreteFragment*/ = {
   "name": "LinkList_viewer",
   "selections": [
     {
-      "kind": "ScalarField",
-      "alias": null,
-      "args": null,
-      "name": "id",
-      "storageKey": null
-    },
-    {
-      "kind": "FragmentSpread",
-      "name": "Link_viewer",
-      "args": null
-    },
-    {
       "kind": "LinkedField",
       "alias": "allLinks",
       "args": [
-        {
-          "kind": "Literal",
-          "name": "last",
-          "value": 100,
-          "type": "Int"
-        },
         {
           "kind": "Literal",
           "name": "orderBy",
@@ -124,12 +117,19 @@ const fragment /*: ConcreteFragment*/ = {
               "args": null,
               "name": "hasNextPage",
               "storageKey": null
+            },
+            {
+              "kind": "ScalarField",
+              "alias": null,
+              "args": null,
+              "name": "endCursor",
+              "storageKey": null
             }
           ],
           "storageKey": null
         }
       ],
-      "storageKey": "__LinkList_allLinks_connection{\"last\":100,\"orderBy\":\"createdAt_DESC\"}"
+      "storageKey": "__LinkList_allLinks_connection{\"orderBy\":\"createdAt_DESC\"}"
     }
   ],
   "type": "Viewer"

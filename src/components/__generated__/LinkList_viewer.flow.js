@@ -5,14 +5,13 @@
  *   relay-compiler
  *
  * @providesModule LinkList_viewer.flow
- * @generated SignedSource<<a264f7eb4e658f099e4866ed1225a03c>>
+ * @generated SignedSource<<8ee0c55d55c6ca723596e3db15ac0775>>
  * @flow
  */
 
 'use strict';
 
 export type LinkList_viewer = {
-  id: string;
   allLinks?: ?LinkList_viewer_allLinks;
 };
 
@@ -22,6 +21,7 @@ export type LinkList_viewer_allLinks_edges = {
 
 export type LinkList_viewer_allLinks_pageInfo = {
   hasNextPage?: ?boolean;
+  endCursor?: ?string;
 };
 
 export type LinkList_viewer_allLinks = {

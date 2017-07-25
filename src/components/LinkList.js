@@ -1,87 +1,96 @@
 import React, { Component } from 'react'
+import Link from './Link'
 import {
-  createFragmentContainer,
+  createPaginationContainer,
   graphql
 } from 'react-relay'
-import { ConnectionHandler } from 'relay-runtime'
-import Link from './Link'
-import NewLinkSubscription from '../subscriptions/NewLinkSubscription'
 import NewVoteSubscription from '../subscriptions/NewVoteSubscription'
-import '../styles/index.css'
+import {ITEMS_PER_PAGE} from '../constants'
 
 class LinkList extends Component {
 
-  async componentDidMount() {
-    NewLinkSubscription(
-      proxyStore => {
-        const linkField = proxyStore.getRootField('Link')
-        const newLink = linkField.getLinkedRecord('node')
-        const votesMeta = newLink.getLinkedRecord('_votesMeta')
-        const currentCount = votesMeta.getValue('count')
-
-        const votes = proxyStore.create('asd', 'VoteConnection')
-        votes.setValue(currentCount, 'count')
-        newLink.setLinkedRecord(votes, 'votes')
-
-        const viewerProxy = proxyStore.get(this.props.viewer.id)
-        const connection = ConnectionHandler.getConnection(viewerProxy, 'LinkList_allLinks', {
-          last: 100,
-          orderBy: 'createdAt_DESC'
-        })
-        if (connection) {
-          const edge = ConnectionHandler.createEdge(proxyStore, connection, newLink, 'allLinks')
-          ConnectionHandler.insertEdgeBefore(connection, edge)
-        }
-      },
-      error => console.log(`An error occured:`, error),
-    )
-    NewVoteSubscription(
-      proxyStore => {
-        const createVoteField = proxyStore.getRootField('Vote')
-        const newVote = createVoteField.getLinkedRecord('node')
-        const updatedLink = newVote.getLinkedRecord('link')
-        const linkId =  updatedLink.getValue('id')
-        const newVotes = updatedLink.getLinkedRecord('_votesMeta')
-        const newVoteCount = newVotes.getValue('count')
-
-        const link = proxyStore.get(linkId)
-        link.getLinkedRecord('votes').setValue(newVoteCount, 'count')
-
-      },
-      error => console.log(`An error occured:`, error),
-    )
-
+  componentDidMount() {
+    NewVoteSubscription()
   }
 
   render() {
-    // debugger
+
     return (
       <div>
-        {this.props.viewer.allLinks.edges.map(({node}, index) =>
-          {
-            {/*console.log(`render node: `, node)*/}
-            return <Link key={node.id} index={index} link={node} viewer={this.props.viewer} />
-          }
-        )}
+        <div>
+          {this.props.viewer.allLinks.edges.map(({node}, index) => (
+            <Link key={node.__id} index={index} link={node}/>
+          ))}
+        </div>
+        <div className='flex ml4 mv3 gray'>
+          <div className='pointer' onClick={() => this._loadMore()}>More</div>
+        </div>
       </div>
     )
   }
 
+  _loadMore() {
+    if (!this.props.relay.hasMore()) {
+      console.log(`Nothing more to load`)
+      return
+    } else if (this.props.relay.isLoading()) {
+      console.log(`Request is already pending`)
+      return
+    }
+
+    this.props.relay.loadMore(ITEMS_PER_PAGE)
+  }
+
 }
 
-export default createFragmentContainer(LinkList, graphql`
-  fragment LinkList_viewer on Viewer {
-    id
-    ...Link_viewer
-    allLinks(last: 100, orderBy: createdAt_DESC) @connection(key: "LinkList_allLinks", filters: ["last", "orderBy"]) {
-      edges {
-        node {
-          ...Link_link
+export default createPaginationContainer(LinkList,
+  {
+    viewer: graphql`
+      fragment LinkList_viewer on Viewer {
+        allLinks(
+          first: $count,
+          after: $after,
+          orderBy: createdAt_DESC
+        ) @connection(key: "LinkList_allLinks") {
+          edges {
+            node {
+              ...Link_link
+            }
+          }
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
         }
       }
-      pageInfo {
-        hasNextPage
+    `,
+  },
+  {
+    direction: 'forward',
+    query: graphql`
+      query LinkListForwardQuery(
+      $count: Int!,
+      $after: String,
+      ) {
+        viewer {
+          ...LinkList_viewer
+        }
       }
-    }
+    `,
+    getConnectionFromProps(props) {
+      return props.viewer && props.viewer.allLinks
+    },
+    getFragmentVariables(previousVariables, totalCount) {
+      return {
+        ...previousVariables,
+        count: totalCount,
+      }
+    },
+    getVariables(props, paginationInfo, fragmentVariables) {
+      return {
+        count: paginationInfo.count,
+        after: paginationInfo.cursor,
+      }
+    },
   }
-`)
+)

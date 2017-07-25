@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import {
-  createFragmentContainer,
-  graphql
-} from 'react-relay'
 import CreateLinkMutation from '../mutations/CreateLinkMutation'
-import { withRouter } from 'react-router-dom'
 import { GC_USER_ID } from '../constants'
 
 class CreateLink extends Component {
@@ -45,22 +40,16 @@ class CreateLink extends Component {
 
   }
 
-  _createLink = async () => {
+  _createLink = () => {
     const postedById = localStorage.getItem(GC_USER_ID)
     if (!postedById) {
       console.error('No user logged in')
       return
     }
     const { description, url } = this.state
-    const { id } = this.props.viewer
-    CreateLinkMutation(postedById, description, url, id, () => this.props.history.push('/'))
+    CreateLinkMutation(postedById, description, url, () => this.props.history.push('/'))
   }
 
 }
 
-export default createFragmentContainer(withRouter(CreateLink), graphql`
-  fragment CreateLink_viewer on Viewer {
-    id
-  }
-`)
-
+export default CreateLink
