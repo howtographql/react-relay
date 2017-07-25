@@ -3,12 +3,13 @@ import {
   requestSubscription
 } from 'react-relay'
 import environment from '../Environment'
+import {ConnectionHandler} from 'react-relay'
+
 
 const newVoteSubscription = graphql`
   subscription NewVoteSubscription {
-    Vote(filter: {
-      mutation_in: [CREATED]
-    }) {
+    Vote {
+      mutation
       node {
         id
         user {
