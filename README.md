@@ -46,7 +46,7 @@ type Vote {
 
 ### 3. Connect the app with your GraphQL API
 
-Copy the project ID (which you find in the generated `project.graphcool` file) into `./src/Environment.js` ` replacing the `__PROJECT_ID__`.
+Copy the project ID (which you find in the generated `project.graphcool` file) into `./src/Environment.js` replacing the `__PROJECT_ID__`.
 
 Notice that you need to this _twice_, once inside `fetchQuery` and once inside `setupSubscription`.
 
