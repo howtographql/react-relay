@@ -50,7 +50,20 @@ Copy the project ID (which you find in the generated `project.graphcool` file) i
 
 Notice that you need to this _twice_, once inside `fetchQuery` and once inside `setupSubscription`.
 
-### 4. Install dependencies & run locally
+### 4. Enable email-password Authentication Provider
+
+Open your project in the [Graphcool console](https://console.graph.cool) (you can use the `graphcool console` command in the terminal or simply navigate to it in the browser).
+
+Then click the following items:
+
+- Select **Integrations** in the left side-menu
+- Select **Email-Password Auth**
+- Select **Enable**
+
+![](http://imgur.com/UTY6IH5.png)
+
+
+### 5. Install dependencies & run locally
 
 ```sh
 yarn install
