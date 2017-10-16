@@ -25,20 +25,20 @@ This creates a GraphQL API for the following schema:
 
 ```graphql
 
-type User {
+type User @model {
   name: String!
   links: [Link!] @relation(name: "UsersLinks")
   votes: [Vote!] @relation(name: "UsersVotes")
 }
 
-type Link { 
+type Link @model { 
   url: String!
   description: String!
   postedBy: User @relation(name: "UsersLinks")
   votes: [Vote!] @relation(name: "VotesOnLink")
 }
 
-type Vote {
+type Vote @model {
   user: User @relation(name: "UsersVotes")
   link: Link @relation(name: "VotesOnLink")
 }
