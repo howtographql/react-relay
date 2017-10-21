@@ -208,10 +208,8 @@ type File implements Node {
 type FileConnection {
   # Information to aid in pagination.
   pageInfo: PageInfo!
-
   # A list of edges.
   edges: [FileEdge]
-
   # Count of filtered result set without considering pagination arguments
   count: Int!
 }
@@ -220,7 +218,6 @@ type FileConnection {
 type FileEdge {
   # The item at the end of the edge.
   node: File!
-
   # A cursor for use in pagination.
   cursor: String!
 }
@@ -350,7 +347,15 @@ type Link implements Node {
   postedBy(filter: UserFilter): User
   updatedAt: DateTime!
   url: String!
-  votes(filter: VoteFilter, orderBy: VoteOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): VoteConnection
+  votes(
+    filter: VoteFilter
+    orderBy: VoteOrderBy
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): VoteConnection
   _votesMeta: _QueryMeta!
 }
 
@@ -359,16 +364,12 @@ type _QueryMeta {
   count: Int!
 }
 
-
-
 # A connection to a list of items.
 type LinkConnection {
   # Information to aid in pagination.
   pageInfo: PageInfo
-
   # A list of edges.
   edges: [LinkEdge]
-
   # Count of filtered result set without considering pagination arguments
   count: Int!
 }
@@ -377,7 +378,6 @@ type LinkConnection {
 type LinkEdge {
   # The item at the end of the edge.
   node: Link
-
   # A cursor for use in pagination.
   cursor: String
 }
@@ -489,7 +489,9 @@ type Mutation {
   addToUsersLinks(input: AddToUsersLinksLinkInput!): AddToUsersLinksPayload
   addToUsersVotes(input: AddToUsersVotesUserInput!): AddToUsersVotesPayload
   addToVotesOnLink(input: AddToVotesOnLinkLinkInput!): AddToVotesOnLinkPayload
-  removeFromUsersLinks(input: RemoveFromUsersLinksLinkInput!): RemoveFromUsersLinksPayload
+  removeFromUsersLinks(
+    input: RemoveFromUsersLinksLinkInput!
+  ): RemoveFromUsersLinksPayload
   createUser(input: SignupUserInput!): CreateUserPayload!
   signinUser(input: SigninUserInput!): SigninPayload!
   createUser(input: SignupUserInput!): CreateUserPayload!
@@ -528,20 +530,16 @@ interface Node {
 type PageInfo {
   # When paginating forwards, are there more items?
   hasNextPage: Boolean
-
   # When paginating backwards, are there more items?
   hasPreviousPage: Boolean
-
   # When paginating backwards, the cursor to continue.
   startCursor: String
-
   # When paginating forwards, the cursor to continue.
   endCursor: String
 }
 
 type Query {
   viewer: Viewer!
-
   # Fetches an object given its ID
   node(
     # The ID of an object
@@ -562,15 +560,6 @@ type RemoveFromUsersLinksPayload {
   postedByUser: User
   linksLinkEdge: LinkEdge
   postedByUserEdge: UserEdge
-}
-
-input SignupUserInput {
-  name: String!
-  linksIds: [ID!]
-  links: [UserlinksLink!]
-  votesIds: [ID!]
-  votes: [UservotesVote!]
-  clientMutationId: String!
 }
 
 input UpdateFile {
@@ -726,20 +715,34 @@ type UpdateVotePayload {
 type User implements Node {
   createdAt: DateTime!
   id: ID!
-  links(filter: LinkFilter, orderBy: LinkOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection
+  links(
+    filter: LinkFilter
+    orderBy: LinkOrderBy
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): LinkConnection
   name: String!
   updatedAt: DateTime!
-  votes(filter: VoteFilter, orderBy: VoteOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): VoteConnection
+  votes(
+    filter: VoteFilter
+    orderBy: VoteOrderBy
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): VoteConnection
 }
 
 # A connection to a list of items.
 type UserConnection {
   # Information to aid in pagination.
   pageInfo: PageInfo!
-
   # A list of edges.
   edges: [UserEdge]
-
   # Count of filtered result set without considering pagination arguments
   count: Int!
 }
@@ -748,7 +751,6 @@ type UserConnection {
 type UserEdge {
   # The item at the end of the edge.
   node: User!
-
   # A cursor for use in pagination.
   cursor: String!
 }
@@ -850,10 +852,42 @@ input UservotesVotelinkLinkvotesVote {
 
 # This is the famous Relay viewer object
 type Viewer {
-  allFiles(filter: FileFilter, orderBy: FileOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
-  allLinks(filter: LinkFilter, orderBy: LinkOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): LinkConnection
-  allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  allVotes(filter: VoteFilter, orderBy: VoteOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): VoteConnection!
+  allFiles(
+    filter: FileFilter
+    orderBy: FileOrderBy
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): FileConnection!
+  allLinks(
+    filter: LinkFilter
+    orderBy: LinkOrderBy
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): LinkConnection
+  allUsers(
+    filter: UserFilter
+    orderBy: UserOrderBy
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): UserConnection!
+  allVotes(
+    filter: VoteFilter
+    orderBy: VoteOrderBy
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): VoteConnection!
   user: User
   File(id: ID, secret: String, url: String): File
   Link(id: ID): Link
@@ -874,10 +908,8 @@ type Vote implements Node {
 type VoteConnection {
   # Information to aid in pagination.
   pageInfo: PageInfo
-
   # A list of edges.
   edges: [VoteEdge]
-
   # Count of filtered result set without considering pagination arguments
   count: Int!
 }
@@ -886,7 +918,6 @@ type VoteConnection {
 type VoteEdge {
   # The item at the end of the edge.
   node: Vote
-
   # A cursor for use in pagination.
   cursor: String
 }
