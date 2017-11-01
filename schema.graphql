@@ -1,7 +1,31 @@
-input AUTH_PROVIDER_EMAIL {
-  email: String!
-  password: String!
-}
+#input AUTH_PROVIDER_EMAIL {
+#  email: String!
+#  password: String!
+#}
+#
+## If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
+#type SigninPayload {
+#  token: String
+#  user: User
+#  clientMutationId: String
+#  viewer: Viewer!
+#}
+#
+#input SigninUserInput {
+#  email: AUTH_PROVIDER_EMAIL
+#  clientMutationId: String!
+#}
+#
+#input SignupUserInput {
+#  name: String!
+#  linksIds: [ID!]
+#  links: [UserlinksLink!]
+#  votesIds: [ID!]
+#  votes: [UservotesVote!]
+#  clientMutationId: String!
+#  authProvider: AuthProviderSignupData!
+#}
+
 
 input AddToUsersLinksLinkInput {
   postedByUserId: ID!
@@ -48,9 +72,9 @@ type AddToVotesOnLinkPayload {
   votesVoteEdge: VoteEdge
 }
 
-input AuthProviderSignupData {
-  email: AUTH_PROVIDER_EMAIL
-}
+#input AuthProviderSignupData {
+#  email: AUTH_PROVIDER_EMAIL
+#}
 
 # The `BigDecimal` scalar type represents signed fractional values with arbitrary precision.
 scalar BigDecimal
@@ -490,32 +514,27 @@ type Mutation {
   addToUsersVotes(input: AddToUsersVotesUserInput!): AddToUsersVotesPayload
   addToVotesOnLink(input: AddToVotesOnLinkLinkInput!): AddToVotesOnLinkPayload
   removeFromUsersLinks(input: RemoveFromUsersLinksLinkInput!): RemoveFromUsersLinksPayload
-  createUser(input: SignupUserInput!): CreateUserPayload!
-  signinUser(input: SigninUserInput!): SigninPayload!
-  createUser(input: SignupUserInput!): CreateUserPayload!
+#  createUser(input: SignupUserInput!): CreateUserPayload!
+#  signinUser(input: SigninUserInput!): SigninPayload!
+#  createUser(input: SignupUserInput!): CreateUserPayload!
+
+  # authenticate
+  authenticateUser(email: String!, password: String!): AuthenticateUserPayload
+
+  # signup
+  signupUser(email: String!, password: String!, name: String!): SignupUserPayload
+
 }
 
-# If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
-type SigninPayload {
-  token: String
-  user: User
-  clientMutationId: String
-  viewer: Viewer!
+# AuthenticateUserPayload
+type AuthenticateUserPayload {
+  token: String!
 }
 
-input SigninUserInput {
-  email: AUTH_PROVIDER_EMAIL
-  clientMutationId: String!
-}
-
-input SignupUserInput {
-  name: String!
-  linksIds: [ID!]
-  links: [UserlinksLink!]
-  votesIds: [ID!]
-  votes: [UservotesVote!]
-  clientMutationId: String!
-  authProvider: AuthProviderSignupData!
+# SignupUserPayload
+type SignupUserPayload {
+  id: ID!
+  token: String!
 }
 
 # An object with an ID

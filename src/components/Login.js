@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { GC_USER_ID, GC_AUTH_TOKEN } from '../constants'
-import SigninMutation from '../mutations/SigninMutation'
-import CreateUserMutation from '../mutations/CreateUserMutation'
+import SigninMutation from '../mutations/AuthenticateUserMutation'
+import CreateUserMutation from '../mutations/SignupUserMutation'
 
 class Login extends Component {
 

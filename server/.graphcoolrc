@@ -1,0 +1,3 @@
+targets:
+  trgefw: shared-eu-west-1/cj9h5g99s24fb0100nsp81d4y
+  default: trgefw

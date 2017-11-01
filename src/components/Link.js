@@ -44,23 +44,30 @@ class Link extends Component {
 
   _userCanVoteOnLink = async (userId, linkId) => {
     const checkVoteQueryText = `
-  query CheckVoteQuery($userId: ID!, $linkId: ID!) {
-    viewer {
-      allVotes(filter: {
-        user: { id: $userId },
-        link: { id: $linkId }
-      }) {
-        edges {
-          node {
-            id
+      query CheckVoteQuery($userId: ID!, $linkId: ID!) {
+        viewer {
+          allVotes(filter: {
+            user: { id: $userId },
+            link: { id: $linkId }
+          }) {
+            edges {
+              node {
+                id
+              }
+            }
           }
         }
-      }
-    }
-  }`
-    const checkVoteQuery = { text: checkVoteQueryText }
-
-    const result = await this.props.relay.environment._network.fetch(checkVoteQuery, {userId, linkId})
+      }`
+    const result = await fetch('https://api.graph.cool/relay/v1/cj9h5g99s24fb0100nsp81d4y', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        query: checkVoteQueryText,
+        variables: { userId, linkId }
+      })
+    }).then(response => response.json())
     return result.data.viewer.allVotes.edges.length === 0
   }
 

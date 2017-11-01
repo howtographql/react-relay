@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+node_modules
 
 # testing
 /coverage
@@ -23,5 +24,5 @@ yarn-error.log*
 .idea
 graphql.config.json
 graphql.schema.json
-project.graphcool
-
+.graphcoolrc
+server/node_modules

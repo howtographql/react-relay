@@ -3,7 +3,6 @@ import {
   requestSubscription
 } from 'react-relay'
 import environment from '../Environment'
-import {ConnectionHandler} from 'react-relay'
 
 
 const newVoteSubscription = graphql`
