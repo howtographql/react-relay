@@ -27,6 +27,7 @@ cd server
 graphcool deploy
 ```
 
+When prompted, choose any of the **Shared Clusters** deplyoment options.
 
 ### 3. Connect the app with your GraphQL API
 
