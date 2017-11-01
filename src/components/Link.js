@@ -6,6 +6,7 @@ import {
 import { GC_USER_ID } from '../constants'
 import { timeDifferenceForDate } from '../utils'
 import CreateVoteMutation from '../mutations/CreateVoteMutation'
+import { fetchQuery } from '../Environment'
 
 class Link extends Component {
 
@@ -38,7 +39,7 @@ class Link extends Component {
     if (canUserVoteOnLink) {
       CreateVoteMutation(userId, linkId)
     } else {
-      console.log(`Current already voted for that link`)
+      console.log(`Current user already voted for that link`)
     }
   }
 
@@ -58,16 +59,9 @@ class Link extends Component {
           }
         }
       }`
-    const result = await fetch('https://api.graph.cool/relay/v1/cj9h5g99s24fb0100nsp81d4y', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query: checkVoteQueryText,
-        variables: { userId, linkId }
-      })
-    }).then(response => response.json())
+    const checkVoteQuery = { text: checkVoteQueryText }
+
+    const result = await fetchQuery(checkVoteQuery, {userId, linkId})
     return result.data.viewer.allVotes.edges.length === 0
   }
 
