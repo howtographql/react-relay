@@ -1,6 +1,7 @@
 # React & Relay Tutorial
 
-This is the sample project that belongs to the [React & Relay Tutorial]() on How to GraphQL.
+This is the sample project that belongs to the [React & Relay Tutorial](
+) on How to GraphQL.
 
 ## Running the App
 
