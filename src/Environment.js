@@ -30,10 +30,28 @@ export const fetchQuery = (operation, variables) => {
 const setupSubscription = (config, variables, cacheConfig, observer) => {
   const query = config.text
 
-  const subscriptionClient = new SubscriptionClient('wss://subscriptions.graph.cool/v1/__SERVICE_ID__', {reconnect: true})
-  subscriptionClient.subscribe({query, variables}, (error, result) => {
-    observer.onNext({data: result})
-  })
+  const subscriptionClient = new SubscriptionClient(
+    'wss://subscriptions.__REGION__.graph.cool/v1/__PROJECT_ID__',
+    {reconnect: true}
+  )
+
+  const client = subscriptionClient
+    .request({query, variables})
+    .subscribe({
+      next: (result) => {
+        observer.onNext({data: result.data})
+      },
+      complete: () => {
+        observer.onCompleted()
+      },
+      error: (error) => {
+        observer.onError(error)
+      }
+    })
+
+  return {
+    dispose: client.unsubscribe
+  }
 }
 
 const network = Network.create(fetchQuery, setupSubscription)
@@ -44,3 +62,4 @@ const environment = new Environment({
 })
 
 export default environment
+
